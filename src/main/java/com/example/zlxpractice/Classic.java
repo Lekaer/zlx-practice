@@ -248,10 +248,91 @@ public class Classic {
         //climbStairs(n-1)+climbStairs(n-2);
     }
 
+
+    // 二分查找
+    // 基本
+    // 输入: nums = [-1,0,3,5,9,12], target = 9
+    // 输出: 4
+    // 解释: 9 出现在 nums 中并且下标为 4
+    // 如果target=8，则返回target应该插入的下标位置，即4
+    public int searchIndexOf(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length - 1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+            if (nums[mid] > target) {
+                right = mid - 1;
+            }
+            if (nums[mid] < target) {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+
+    // 二分 找左边界
+    // 跳出循环的条件不一样（左边正常走，右边移动到mid）
+    // 找出给定目标值在数组中的开始位置和结束位置
+    // 如果数组中不存在目标值 target，返回 [-1, -1]
+    // 输入：nums = [5,7,7,8,8,10], target = 8
+    // 输出：[3,4]
+    public int[] searchRange(int[] nums, int target) {
+        int left = findBound(nums, target);
+        if(left == nums.length || nums[left] != target){
+            return new int[]{-1, -1};
+        }
+        int right = findBound(nums, target+1) - 1;
+        return new int[]{left, right};
+    }
+
+    // 搜索边界
+    public int findBound(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if(nums[mid] < target){
+                left = mid + 1;
+            }
+            else{
+                right = mid;
+            }
+        }
+        return left;
+    }
+
+
+    // 二分 平方根
+    // 输入：x = 8
+    // 输出：2
+    // 解释：8 的算术平方根是 2.82842..., 由于返回类型是整数，小数部分将被舍去。
+    public int mySqrt(int x){
+        int left = 0;
+        int right = x;
+        while (left <= right){
+            int mid = left + (right - left) / 2;
+            if(x == mid * mid){
+                return mid;
+            }
+            if(x < mid * mid){
+                right = mid - 1;
+            }
+            else if(x > mid * mid){
+                left = mid + 1;
+            }
+        }
+        return right;
+    }
+
+
     public static void main(String[] args) {
         Classic classic = new Classic();
-        String s = "aaabcbcba";
-        System.out.println(classic.longestPalindrome(s));
-        System.out.println(classic.fib1(8));
+        int[] nums = new int[]{1, 4, 4, 6, 7, 9};
+//        System.out.println(Arrays.toString(classic.searchRange(nums, 4)));
+        System.out.println(classic.mySqrt(8));
     }
 }

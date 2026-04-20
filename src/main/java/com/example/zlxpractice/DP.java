@@ -1,5 +1,8 @@
 package com.example.zlxpractice;
 
+/**
+ * 动态规划问题
+ */
 public class DP {
     public static void main(String[] args) {
         int[] nums = {2,3,-2,4};
